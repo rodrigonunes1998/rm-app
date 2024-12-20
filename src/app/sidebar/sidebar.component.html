@@ -1,8 +1,8 @@
 <app-cabecalho></app-cabecalho>
-<div class="sidebar">
-    <ul>
-        <li><a routerLink="characters">Characters</a></li>
-        <li><a href="#">Locations</a></li>
-        <li><a href="#">Episodes</a></li>
-    </ul>
+<div class="sidebar" (mouseenter)="teste()" (mouseleave)="teste()">
+
+    <ul class="ul-option-sidebar"><mat-icon>person</mat-icon><span routerLink="characters">Characters</span></ul>
+    <ul class="ul-option-sidebar"><mat-icon>person</mat-icon><span routerLink="characters">Locations</span></ul>
+    <ul class="ul-option-sidebar"><mat-icon>person</mat-icon><span routerLink="characters">Episodes</span></ul>
+
 </div>

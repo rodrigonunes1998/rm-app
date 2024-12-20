@@ -1,5 +1,5 @@
 .sidebar {
-    width: 200px;
+    width: 180px;
     height: 100vh;
     background: var(--color-dark);
     color: var(--color-primary);
@@ -7,4 +7,27 @@
 
 .sidebar ul{
     margin-top: 0px;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.ul-option-sidebar{
+    display: flex;
+    align-items: center;
+    justify-content:flex-start;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    gap: 2px;
+}
+
+.ul-option-sidebar mat-icon {
+    margin-left: 0px;
+}
+
+.ul-option-sidebar:hover{
+    background-color: var(--color-light);
+    color: var(--color-dark);
 }
