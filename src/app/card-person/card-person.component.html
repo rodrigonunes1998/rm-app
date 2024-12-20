@@ -1,1 +1,15 @@
-<app-sidebar></app-sidebar>
+<div class="card">
+    <div class="card-image">
+      <img src="{{infoCharacter.image}}" alt="Character Image" />
+    </div>
+    <div class="card-content">
+      <h2 class="card-title">{{infoCharacter.name}}</h2>
+      <p class="status">
+        <span class="status-indicator" [ngClass]="{'alive': infoCharacter.status === 'Alive', 'dead': infoCharacter.status === 'Dead'}"></span> {{infoCharacter.status}}-{{infoCharacter.species}}
+      </p>
+      <p class="location-title">Last known location:</p>
+      <p class="location">{{infoCharacter.location.name}}</p>
+      <p class="first-seen-title">First seen in:</p>
+      <p class="first-seen">{{infoCharacter.location.name}}</p>
+    </div>
+  </div>

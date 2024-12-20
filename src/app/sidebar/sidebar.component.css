@@ -1,12 +1,15 @@
 .sidebar {
-    width: 180px;
-    height: 100vh;
+    width: 150px;
+    height: 100%;
     background: var(--color-dark);
     color: var(--color-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .sidebar ul{
-    margin-top: 0px;
+    margin-top: 10px;
 }
 
 .cursor-pointer{
@@ -21,13 +24,30 @@
     cursor: pointer;
     padding: 5px;
     gap: 2px;
+    border-radius: 8px;
 }
 
 .ul-option-sidebar mat-icon {
     margin-left: 0px;
 }
 
+::ng-deep .ul-option-sidebar span label{
+    cursor: pointer;
+}
+
 .ul-option-sidebar:hover{
     background-color: var(--color-light);
     color: var(--color-dark);
+}
+
+.ul-option-active {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+}
+
+.active-sidebar{
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

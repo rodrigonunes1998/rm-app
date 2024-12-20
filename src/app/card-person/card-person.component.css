@@ -1,0 +1,73 @@
+.card {
+    display: flex;
+    background-color: #2c2f48;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    max-width: 250px;
+    max-height: 180px;
+    /* width: 100%; */
+    color: var(--color-light);
+}
+
+.card-image img {
+    height: 60px;
+    max-width: 80px;
+    object-fit: cover;
+}
+
+.card-content {
+    width: 400px;
+    padding: 16px;
+    flex: 1;
+    color: var(--color-light);
+}
+
+.card-title {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 0 8px;
+    color: var(--color-light);
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    color: var(--color-light);
+    /* Green for "Alive" */
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.alive{
+    background-color: #00c853;
+}
+
+.dead{
+    background-color: #ff0000;
+}
+
+.location-title,
+.first-seen-title {
+    font-size: 14px;
+    color: #aaa;
+    margin: 4px 0;
+}
+
+.location,
+.first-seen {
+    font-size: 12px;
+    margin: 0 0 8px;
+}
+
+.first-seen-title {
+    color: #f3a952;
+    /* Highlighted color */
+}

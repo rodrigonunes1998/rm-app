@@ -1,8 +1,7 @@
-<app-cabecalho></app-cabecalho>
-<div class="sidebar" (mouseenter)="teste()" (mouseleave)="teste()">
+<div class="sidebar" (mouseenter)="handleEnterSidebar()" (mouseleave)="handleExitSidebar()" [ngClass]="{'active-sidebar' : !stateSidebar}">
 
-    <ul class="ul-option-sidebar"><mat-icon>person</mat-icon><span routerLink="characters">Characters</span></ul>
-    <ul class="ul-option-sidebar"><mat-icon>person</mat-icon><span routerLink="characters">Locations</span></ul>
-    <ul class="ul-option-sidebar"><mat-icon>person</mat-icon><span routerLink="characters">Episodes</span></ul>
+    <ul class="ul-option-sidebar" [ngClass]="{'ul-option-active': currentUrl === '/characters'}"><mat-icon>group</mat-icon><span routerLink="/characters" [hidden]="!stateSidebar">Characters</span></ul>
+    <!-- <ul class="ul-option-sidebar" [ngClass]="{'ul-option-active': currentUrl === '/locations'}"><mat-icon>location_on</mat-icon><span routerLink="/locations"><label [hidden]="!stateSidebar">Locations</label></span></ul> -->
+    <ul class="ul-option-sidebar" [ngClass]="{'ul-option-active': currentUrl === '/episodes'}"><mat-icon>movie</mat-icon><span routerLink="/episodes"><label [hidden]="!stateSidebar">Episodes</label></span></ul>
 
 </div>

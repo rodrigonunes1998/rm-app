@@ -1,0 +1,35 @@
+.dashboard-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .main {
+    display: flex;
+    flex: 1;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+  }
+
+  .cards-container {
+    display: grid; /* Define o layout como Grid */
+    grid-template-columns: repeat(5, 1fr); /* Garante 5 colunas por linha */
+    gap: 16px; /* Espaçamento entre os cards */
+    padding: 16px; /* Espaçamento interno */
+  }
+  
+  @media (max-width: 768px) {
+    .cards-container {
+      grid-template-columns: repeat(2, 1fr); /* Ajusta para 2 colunas em telas menores */
+    }
+  
+    .card {
+      padding: 12px; /* Reduz o padding dos cards */
+    }
+  }
+
+  

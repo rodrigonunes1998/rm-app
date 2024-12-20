@@ -1,19 +1,19 @@
-.cabecalho{
+.cabecalho {
     background-color: var(--color-dark);
 }
 
-.cabecalho nav{
+.cabecalho nav {
     margin-left: 25px;
     display: flex;
     justify-content: space-between;
     gap: 15px;
 }
 
-.cabecalho nav ul{
+.cabecalho nav ul {
     padding-left: 0px;
 }
 
-.cabecalho nav ul:hover{
+/* .cabecalho nav ul:hover {
     background-color: var(--color-light);
     color: var(--color-dark);
     cursor: pointer;
@@ -21,19 +21,26 @@
     padding-left: 5px;
     padding-top: 3px;
     padding-right: 5px;
-}
+} */
 
-::ng-deep .logo img{
+::ng-deep .logo img {
     width: 80px;
     height: 60px;
 }
 
-::ng-deep .icon-person{
-    margin-left: auto;
-    margin-right: 20px;
-   
+::ng-deep .icon-person {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-::ng-deep .icon-person mat-icon{
-    height: 60px;
-}
+.icon-person label {
+    margin-right: 8px; 
+    font-size: 14px; 
+  }
+  
+  .icon-person mat-icon {
+    font-size: 20px; 
+  }

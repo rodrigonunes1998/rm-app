@@ -1,5 +1,14 @@
-<app-sidebar></app-sidebar>
-<div class="bg-blue-500 text-white p-4 rounded">
-    <p style="color: black;">black</p>Hello, Tailwind CSS!
+<div class="dashboard-layout">
+  <app-cabecalho></app-cabecalho>
+  <div class="main">
+    <app-sidebar></app-sidebar>
+    <div class="content">
+      <router-outlet></router-outlet>
+      <div class="cards-container">
+       <ng-container *ngFor="let person of listCharacters">
+          <app-card-person [infoCharacter]="person"></app-card-person>
+       </ng-container>
+      </div>
+    </div>
   </div>
-  
+</div>

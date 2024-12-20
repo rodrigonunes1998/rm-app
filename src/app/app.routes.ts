@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
-import { CardPersonComponent } from './card-person/card-person.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EpisodesComponent } from './episodes/episodes.component';
 
 export const routes: Routes = [
     {
-        path: "home",
+        path: "characters",
         component: DashboardComponent
     },
     {
-        path: "characters",
-        component: CardPersonComponent
+        path: 'episodes',
+        component: EpisodesComponent
     }
 
 ];
