@@ -1,1 +1,92 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+:root {
+  /* Cores principais */
+  --color-primary: #00ffbf; /* Verde neon, inspirado no portal */
+  --color-secondary: #1b98e0; /* Azul brilhante, inspirado nos uniformes */
+  --color-accent: #ffcc00; /* Amarelo vibrante, inspirado no cabelo de Morty */
+
+  /* Tons complementares */
+  --color-dark: #2c2c54; /* Azul escuro, para fundos */
+  --color-light: #f5f5f5; /* Branco suave */
+  --color-danger: #ff4d4d; /* Vermelho vibrante, para alertas */
+  --color-success: #28a745; /* Verde claro */
+
+  /* Gradientes */
+  --gradient-primary: linear-gradient(90deg, #00ffbf, #1b98e0);
+  --gradient-accent: linear-gradient(90deg, #ffcc00, #ff4d4d);
+}
+
+body {
+  /* background: var(--color-dark); */
+  color: var(--color-light);
+  font-family: 'Inter', 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Botões */
+.button-primary {
+  background: var(--gradient-primary);
+  color: var(--color-light);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.button-primary:hover {
+  transform: scale(1.05);
+}
+
+.button-danger {
+  background: var(--color-danger);
+  color: var(--color-light);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Títulos */
+h1 {
+  color: var(--color-primary);
+  text-shadow: 2px 2px 4px var(--color-secondary);
+}
+
+h2 {
+  color: var(--color-secondary);
+}
+
+/* Links */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+/* Card */
+.card {
+  background: var(--color-light);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.card-title {
+  font-size: 20px;
+  color: var(--color-dark);
+}
+
+.card-content {
+  font-size: 16px;
+  color: var(--color-dark);
+}

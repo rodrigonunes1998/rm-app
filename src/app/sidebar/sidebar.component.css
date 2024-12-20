@@ -1,0 +1,10 @@
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    background: var(--color-dark);
+    color: var(--color-primary);
+}
+
+.sidebar ul{
+    margin-top: 0px;
+}
