@@ -1,13 +1,18 @@
-import { Component, HostListener, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, AfterViewInit, EventEmitter } from '@angular/core';
 import { CharactersServiceService } from './characters-service.service';
 import { RouterOutlet, Router } from '@angular/router';
 import { CabecalhoComponent } from '../cabecalho/cabecalho.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CardPersonComponent } from '../card-person/card-person.component';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { Subject, takeUntil } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { FilterPersonPipe } from './filter-person.pipe';
 
-interface ICharacter {
+
+export interface ICharacter {
   id: number;
   name: string;
   status: string;
@@ -34,7 +39,7 @@ interface ILocation {
 
 @Component({
   selector: 'app-dashboard',
-  imports:[RouterOutlet,CabecalhoComponent,SidebarComponent, CardPersonComponent, CommonModule, HttpClientModule],
+  imports: [RouterOutlet, CabecalhoComponent, SidebarComponent, CardPersonComponent, CommonModule, HttpClientModule, MatIconModule, FormsModule,FilterPersonPipe],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
   providers: [CharactersServiceService]
@@ -42,64 +47,93 @@ interface ILocation {
 export class DashboardComponent implements OnInit, AfterViewInit {
 
   @ViewChild('containerContentCards') contentCards: any;
-  public containerHeight: number = 0;
-  public containerClientHeight: number = 0;
+  public containerHeight!: number;
   public scrollPosition: number = 0;
   public scrollHeightPosition: number = 0;
 
   public listCharacters!: Array<ICharacter>;
+  public listCurrentCharacters!: Array<ICharacter>;
+  public listFilteredCharacters!: Array<ICharacter>;
   public currentPage: number = 1;
+  public totalPages!: number;
+  public isLoading: boolean = false;
+  public textSearch: string = "";
+
+  public cardSelected!: any;
+
+  private unsubscription$ = new Subject<void>;
 
   constructor(private characterService: CharactersServiceService) { }
 
   ngOnInit() {
-    console.log("requisitando api...");
     this.getAllCharacters();
   }
 
+  ngOnDestroy(): void {
+    this.unsubscription$.next();
+    this.unsubscription$.complete();
+  }
   ngAfterViewInit(): void {
-    console.log("calculando apos inicializacao do container");
-    this.calculateHeight();  // Chama a função após a renderização
+    this.calculateHeight();
 
     if (this.contentCards) {
       this.contentCards.nativeElement.addEventListener('scroll', (event: Event) => {
-        this.scrollPosition = this.contentCards.nativeElement.scrollTop;  // Pega a posição de rolagem
-        console.log("Posição do scroll dentro do contêiner (scrollTop):", this.scrollPosition);
+        this.scrollPosition = this.contentCards.nativeElement.scrollTop;
+        let somativa = this.scrollPosition + this.containerHeight;
+        if (somativa >= this.scrollHeightPosition && !this.isLoading) {
+          this.handleNextPage();
+        }
       });
     }
   }
 
+  public trackByIndex(index: number): number {
+    return index;
+  }
+
+
   public getAllCharacters(): void {
-    this.characterService.getAllCharacters().subscribe((response: any) => {
-      this.listCharacters = response.results;
-      this.calculateHeight();  // Calcule novamente as dimensões após o carregamento dos dados
-    });
+    this.characterService.getAllCharacters(this.currentPage)
+      .pipe(
+        takeUntil(this.unsubscription$),
+        
+      )
+      .subscribe((response: any) => {
+        this.listCurrentCharacters = response.results;
+        this.totalPages = response.info.pages;
+        this.calculateHeight();
+      });
   }
 
   public calculateHeight(): void {
-    console.log("Calculating height");
-    if (this.contentCards && this.contentCards.nativeElement) {
-      // Captura a altura visível, a altura total e a posição do scroll do container de cards
-      this.containerHeight = this.contentCards.nativeElement.offsetHeight;
-      this.containerClientHeight = this.contentCards.nativeElement.clientHeight;
-      this.scrollHeightPosition = this.contentCards.nativeElement.scrollHeight;
-
-      // Log para ver os valores
-      console.log("Altura do container:", this.containerHeight);
-      console.log("Altura visível do container (clientHeight):", this.containerClientHeight);
-      console.log("Altura total do conteúdo (scrollHeight):", this.scrollHeightPosition);
+    if (this.contentCards) {
+      let container: any = this.contentCards.nativeElement;
+      this.containerHeight = container.offsetHeight;
+      this.scrollHeightPosition = container.scrollHeight;
     }
   }
 
- 
+  public handleNextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.isLoading = true;
+      this.characterService.getAllCharacters(this.currentPage).subscribe((response: any) => {
+        this.listCurrentCharacters = [... this.listCurrentCharacters, ...response.results];
+        setTimeout(() => {
+          this.calculateHeight(); // Recalcula a altura após carregar os novos dados
+          this.isLoading = false;
+        }, 0);
+      });
+    }
+  }
 
-  // @HostListener('scroll', ['$event'])
-  // onScroll(event: Event): void {
-  //   console.log(event);
-  //   const containerElement = this.contentCards.nativeElement;
-  //   this.scrollPosition = containerElement.scrollTop;  // Pega a posição do scroll
 
-  //   console.log("Posição do scroll (scrollTop):", this.scrollPosition);
-  // }
+  public openCard(event: Event): void {
+    this.cardSelected = event;
+  }
+
+  public handleFilterCharacter(){
+    //this.characterService.getCharatersWithFilter()
+  }
 
 }

@@ -1,30 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ICharacter } from '../dashboard/dashboard.component';
 
-interface ICharacter {
-  id: number;
-  name: string;
-  status: string;
-  species: string;
-  type: string;
-  gender: string;
-  origin: IOrigin;
-  location: ILocation;
-  image: string;
-  episode: Array<string>;
-  url: string;
-  created: string;
-}
-
-interface IOrigin {
-  name: string;
-  url: string;
-}
-
-interface ILocation {
-  name: string;
-  url: string;
-}
 
 
 @Component({
@@ -35,9 +12,17 @@ interface ILocation {
   styleUrl: './card-person.component.css'
 })
 export class CardPersonComponent {
+
+  //Informacoes de entrada para o card
   @Input() infoCharacter!: ICharacter;
 
+  @Output() selectedCharacter: EventEmitter<any> = new EventEmitter<any>();
 
+
+
+  public handleOpenCard(object: ICharacter):void {
+    this.selectedCharacter.emit(object);
+  }
 
 
 }

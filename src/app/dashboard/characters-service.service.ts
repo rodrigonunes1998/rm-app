@@ -12,8 +12,8 @@ export class CharactersServiceService {
   }
 
 
-  public getAllCharacters(): Observable<any>{
-    return this.http.get(`https://rickandmortyapi.com/api/character`);
+  public getAllCharacters(page: number): Observable<any>{
+    return this.http.get(`https://rickandmortyapi.com/api/character/?page=${page}`);
   }
 
 }

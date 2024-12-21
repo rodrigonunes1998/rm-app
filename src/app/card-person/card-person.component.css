@@ -8,6 +8,7 @@
     max-height: 180px;
     /* width: 100%; */
     color: var(--color-light);
+    cursor: pointer;
 }
 
 .card-image img {

@@ -1,14 +1,49 @@
 <div class="dashboard-layout">
-  <app-cabecalho></app-cabecalho>
-  <div class="main">
-    <app-sidebar></app-sidebar>
-    <div class="content" >
-      <router-outlet></router-outlet>
-      <div class="cards-container"  #containerContentCards>
-       <ng-container *ngFor="let person of listCharacters">
-          <app-card-person [infoCharacter]="person"></app-card-person>
-       </ng-container>
-      </div>
+    <app-cabecalho></app-cabecalho>
+    <div class="main">
+        <app-sidebar></app-sidebar>
+        <div class="content">
+
+            <router-outlet></router-outlet>
+
+            <span class="bar-research">
+                <select>
+                <option>Tipo 1</option>
+                </select>
+                <input type="text" placeholder="Pesquise pelo nome..." [(ngModel)]="textSearch" (keypress)="handleFilterCharacter()">
+            </span>
+
+            <div class="cards-container" #containerContentCards>
+
+                <ng-container
+                    *ngFor="let person of listCurrentCharacters | filterPerson:textSearch; trackBy: trackByIndex; ">
+                    <app-card-person [infoCharacter]="person" (selectedCharacter)="openCard($event)"></app-card-person>
+                </ng-container>
+
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
+<ng-container *ngIf="cardSelected">
+    <div class="modal-overlay">
+
+        <div class="modal">
+            <span class="icon-close"><mat-icon>close</mat-icon></span>
+            <div class="modal-content">
+                <h2>{{ cardSelected.name }}</h2>
+                <img [src]="cardSelected.image" alt="{{ cardSelected.name }}" class="modal-image">
+                <p><strong>Status:</strong> {{ cardSelected.status }}</p>
+                <p><strong>Species:</strong> {{ cardSelected.species }}</p>
+                <p><strong>Gender:</strong> {{ cardSelected.gender }}</p>
+                <p><strong>Origin:</strong> {{ cardSelected.origin.name }}</p>
+                <p><strong>Location:</strong> {{ cardSelected.location.name }}</p>
+                <p><strong>Episodes:</strong></p>
+                <ul>
+                    <li *ngFor="let episode of cardSelected.episode">{{ episode }}</li>
+                </ul>
+                <button>Close</button>
+            </div>
+        </div>
+    </div>
+</ng-container>
