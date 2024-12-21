@@ -1,5 +1,7 @@
 .cabecalho {
     background-color: var(--color-dark);
+    position: fixed;
+    width: 100%;
 }
 
 .cabecalho nav {

@@ -17,19 +17,48 @@
 
   .cards-container {
     display: grid; /* Define o layout como Grid */
-    grid-template-columns: repeat(5, 1fr); /* Garante 5 colunas por linha */
+    grid-template-columns: repeat(4, 1fr); /* 5 colunas por linha em telas grandes */
     gap: 16px; /* Espaçamento entre os cards */
     padding: 16px; /* Espaçamento interno */
+    overflow: auto;
+    height: 800px;
+    margin-left: 70px;
+    margin-top: 70px;
+  }
+  
+  @media (max-width: 1320px) {
+    .cards-container {
+      grid-template-columns: repeat(3, 1fr); /* 4 colunas em telas menores que 1320px */
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .cards-container {
+      grid-template-columns: repeat(3, 1fr); /* 3 colunas em telas menores que 1024px */
+    }
   }
   
   @media (max-width: 768px) {
     .cards-container {
-      grid-template-columns: repeat(2, 1fr); /* Ajusta para 2 colunas em telas menores */
+      grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas menores que 768px */
+      padding: 8px; /* Reduz o padding para otimizar o espaço */
     }
   
     .card {
       padding: 12px; /* Reduz o padding dos cards */
     }
   }
+  
+  @media (max-width: 480px) {
+    .cards-container {
+      grid-template-columns: 1fr; /* 1 coluna em telas muito pequenas */
+      padding: 4px; /* Reduz o padding para otimizar ainda mais o espaço */
+    }
+  
+    .card {
+      padding: 8px; /* Reduz o padding dos cards */
+    }
+  }
+  
 
   
