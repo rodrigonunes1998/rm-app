@@ -6,10 +6,10 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CardPersonComponent } from '../card-person/card-person.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, filter, map, takeUntil } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { FilterPersonPipe } from './filter-person.pipe';
+import { FilterPersonPipe, FilterPersonStatusPipe,FilterPersonGenderPipe, FilterPersonSpeciePipe } from './filter-person.pipe';
 
 
 export interface ICharacter {
@@ -39,7 +39,7 @@ interface ILocation {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterOutlet, CabecalhoComponent, SidebarComponent, CardPersonComponent, CommonModule, HttpClientModule, MatIconModule, FormsModule,FilterPersonPipe],
+  imports: [RouterOutlet, CabecalhoComponent, SidebarComponent, CardPersonComponent, CommonModule, HttpClientModule, MatIconModule, FormsModule,FilterPersonPipe, FilterPersonStatusPipe, FilterPersonGenderPipe,FilterPersonSpeciePipe],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
   providers: [CharactersServiceService]
@@ -57,8 +57,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   public currentPage: number = 1;
   public totalPages!: number;
   public isLoading: boolean = false;
-  public textSearch: string = "";
 
+  //Variables research
+  public textSearch: string = "";
+  public listFilterStatus!: Array<any>;
+  public listFilterGender!: Array<any>;
+  public listFilterType!: Array<any>;
+  public statusSelected: string = "";
+  public genderSelect: string = "";
+  public typeSelected: string = "";
+  
   public cardSelected!: any;
 
   private unsubscription$ = new Subject<void>;
@@ -96,7 +104,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.characterService.getAllCharacters(this.currentPage)
       .pipe(
         takeUntil(this.unsubscription$),
-        
+        map((characters: any) => {
+          this.listFilterStatus = [... new Set(characters.results.map((results: any) => results.status))];
+          this.listFilterGender = [... new Set(characters.results.map((results: any) => results.gender))];
+          this.listFilterType = [... new Set(characters.results.map((results: any) => results.type))];
+          return characters;
+        })
       )
       .subscribe((response: any) => {
         this.listCurrentCharacters = response.results;
@@ -117,7 +130,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
       this.isLoading = true;
-      this.characterService.getAllCharacters(this.currentPage).subscribe((response: any) => {
+      this.characterService.getAllCharacters(this.currentPage)
+      .pipe(
+        map((character: any) => {
+          this.listFilterStatus = [... new Set(character.results.map((result: any) => result.status))];
+          this.listFilterGender = [... new Set(character.results.map((result: any) => result.gender))];
+          this.listFilterType = [... new Set(character.results.map((results: any) => results.type))];
+          return character;
+        })
+      )
+      .subscribe((response: any) => {
         this.listCurrentCharacters = [... this.listCurrentCharacters, ...response.results];
         setTimeout(() => {
           this.calculateHeight(); // Recalcula a altura após carregar os novos dados
@@ -133,7 +155,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   public handleFilterCharacter(){
-    //this.characterService.getCharatersWithFilter()
+    console.log(this.genderSelect);
+    console.log(this.statusSelected);
   }
 
 }

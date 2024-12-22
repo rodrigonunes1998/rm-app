@@ -5,7 +5,7 @@ import {ICharacter} from './dashboard.component';
 
 
 @Pipe({
-  name: 'filterPerson'
+  name: 'filterPersonName'
 })
 export class FilterPersonPipe implements PipeTransform {
 
@@ -20,3 +20,50 @@ export class FilterPersonPipe implements PipeTransform {
   }
 
 }
+
+@Pipe({
+  name: 'filterPersonStatus'
+})
+export class FilterPersonStatusPipe implements PipeTransform {
+  transform(characters: ICharacter[], termSearch: string) {
+    if(!characters || !termSearch){
+      return characters;
+    }else {
+      return characters.filter(character =>
+        character.status.toLowerCase().includes(termSearch.toLowerCase())
+      );
+    }
+  }
+}
+
+@Pipe({
+  name: 'filterPersonGender'
+})
+export class FilterPersonGenderPipe implements PipeTransform {
+  transform(characters: ICharacter[], termSearch: string) {
+    if(!characters || !termSearch){
+      return characters;
+    }else {
+      return characters.filter(character =>
+        character.gender.toLowerCase().includes(termSearch.toLowerCase())
+      );
+    }
+  }
+}
+
+
+@Pipe({
+  name: 'filterPersonSpecie'
+})
+export class FilterPersonSpeciePipe implements PipeTransform {
+  transform(characters: ICharacter[], termSearch: string) {
+    if(!characters || !termSearch){
+      return characters;
+    }else {
+      return characters.filter(character =>
+        character.species.toLowerCase().includes(termSearch.toLowerCase())
+      );
+    }
+  }
+}
+
