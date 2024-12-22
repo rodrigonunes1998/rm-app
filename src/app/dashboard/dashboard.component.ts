@@ -150,8 +150,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           /**
            * Processo geracao de filtros qual atualizar a pagina por scrolling
            */
-          this.listFilterStatus = [...this.listFilterStatus,... new Set(character.results.map((result: any) => result.status))];
-          this.listFilterGender = [...this.listFilterGender,... new Set(character.results.map((result: any) => result.gender))];
+          this.listFilterStatus = [... new Set(this.listFilterStatus),... new Set(character.results.map((result: any) => result.status))];
+          this.listFilterGender = [... new Set(this.listFilterGender),... new Set(character.results.map((result: any) => result.gender))];
           this.listFilterSpecies = [... new Set(this.listFilterSpecies),... new Set(character.results.map((results: any) => results.type))];
           return character;
         })
