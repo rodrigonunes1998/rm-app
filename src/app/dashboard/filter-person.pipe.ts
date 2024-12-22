@@ -2,7 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import {ICharacter} from './dashboard.component';
 
 
-
+/**
+ * Pipe de filtragem pelo nome do personagem
+ */
 
 @Pipe({
   name: 'filterPersonName'
@@ -21,6 +23,10 @@ export class FilterPersonPipe implements PipeTransform {
 
 }
 
+/**
+ * Pipe de filtragem pelos status
+ */
+
 @Pipe({
   name: 'filterPersonStatus'
 })
@@ -35,6 +41,10 @@ export class FilterPersonStatusPipe implements PipeTransform {
     }
   }
 }
+
+/**
+ * Pipe de filtragem pelo genero
+ */
 
 @Pipe({
   name: 'filterPersonGender'
@@ -51,6 +61,9 @@ export class FilterPersonGenderPipe implements PipeTransform {
   }
 }
 
+/**
+ * Pipe de filtragem das listas pela especie
+ */
 
 @Pipe({
   name: 'filterPersonSpecie'

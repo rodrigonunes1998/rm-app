@@ -29,8 +29,8 @@
 
                     <div class="select-item">
                         <label>Tipo</label>
-                        <select [(ngModel)]="typeSelected">
-                            <option *ngFor="let type of listFilterType">{{type}}</option>
+                        <select [(ngModel)]="speciesSelected">
+                            <option *ngFor="let type of listFilterSpecies">{{type}}</option>
                         </select>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
             <div class="cards-container" #containerContentCards>
 
                 <ng-container
-                    *ngFor="let person of listCurrentCharacters | filterPersonName:textSearch | filterPersonStatus:statusSelected | filterPersonGender:genderSelect | filterPersonSpecie:typeSelected; trackBy: trackByIndex; ">
+                    *ngFor="let person of listCurrentCharacters | filterPersonName:textSearch | filterPersonStatus:statusSelected | filterPersonGender:genderSelect | filterPersonSpecie:speciesSelected; trackBy: trackByIndex; ">
                     <app-card-person [infoCharacter]="person" (selectedCharacter)="openCard($event)"></app-card-person>
                 </ng-container>
 

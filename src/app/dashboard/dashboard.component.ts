@@ -60,18 +60,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   //Variables research
   public textSearch: string = "";
-  public listFilterStatus!: Array<any>;
-  public listFilterGender!: Array<any>;
-  public listFilterType!: Array<any>;
+  public listFilterStatus: Array<any> = [];
+  public listFilterGender: Array<any> = [];
+  public listFilterSpecies: Array<any> = [];
   public statusSelected: string = "";
   public genderSelect: string = "";
-  public typeSelected: string = "";
+  public speciesSelected: string = "";
   
   public cardSelected!: any;
 
   private unsubscription$ = new Subject<void>;
 
   constructor(private characterService: CharactersServiceService) { }
+
 
   ngOnInit() {
     this.getAllCharacters();
@@ -81,12 +82,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.unsubscription$.next();
     this.unsubscription$.complete();
   }
+
   ngAfterViewInit(): void {
     this.calculateHeight();
 
     if (this.contentCards) {
       this.contentCards.nativeElement.addEventListener('scroll', (event: Event) => {
         this.scrollPosition = this.contentCards.nativeElement.scrollTop;
+        console.log(this.scrollPosition);
         let somativa = this.scrollPosition + this.containerHeight;
         if (somativa >= this.scrollHeightPosition && !this.isLoading) {
           this.handleNextPage();
@@ -95,19 +98,27 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Funcao trackby para nao precisar reenderizar o dom da listagem
+   */
   public trackByIndex(index: number): number {
     return index;
   }
 
-
+  /**
+   * Funcao para realizar o preenchimento do array de personagens
+   */
   public getAllCharacters(): void {
     this.characterService.getAllCharacters(this.currentPage)
       .pipe(
         takeUntil(this.unsubscription$),
         map((characters: any) => {
-          this.listFilterStatus = [... new Set(characters.results.map((results: any) => results.status))];
-          this.listFilterGender = [... new Set(characters.results.map((results: any) => results.gender))];
-          this.listFilterType = [... new Set(characters.results.map((results: any) => results.type))];
+          /**
+           * Processo geracao de filtros
+           */
+          this.listFilterStatus = [... new Set(this.listFilterStatus),... new Set(characters.results.map((results: any) => results.status))];
+          this.listFilterGender = [... new Set(this.listFilterGender), ... new Set(characters.results.map((results: any) => results.gender))];
+          this.listFilterSpecies = [...new Set(this.listFilterSpecies),... new Set(characters.results.map((results: any) => results.species))];
           return characters;
         })
       )
@@ -118,6 +129,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       });
   }
 
+  /**
+   * Funcao para calcular altura do container para ativar a paginacao por scrolling
+   */
   public calculateHeight(): void {
     if (this.contentCards) {
       let container: any = this.contentCards.nativeElement;
@@ -133,9 +147,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.characterService.getAllCharacters(this.currentPage)
       .pipe(
         map((character: any) => {
-          this.listFilterStatus = [... new Set(character.results.map((result: any) => result.status))];
-          this.listFilterGender = [... new Set(character.results.map((result: any) => result.gender))];
-          this.listFilterType = [... new Set(character.results.map((results: any) => results.type))];
+          /**
+           * Processo geracao de filtros qual atualizar a pagina por scrolling
+           */
+          this.listFilterStatus = [...this.listFilterStatus,... new Set(character.results.map((result: any) => result.status))];
+          this.listFilterGender = [...this.listFilterGender,... new Set(character.results.map((result: any) => result.gender))];
+          this.listFilterSpecies = [... new Set(this.listFilterSpecies),... new Set(character.results.map((results: any) => results.type))];
           return character;
         })
       )
