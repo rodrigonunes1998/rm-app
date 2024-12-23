@@ -1,8 +1,8 @@
 <div class="dashboard-layout">
     <app-cabecalho></app-cabecalho>
     <div class="main">
-        <app-sidebar></app-sidebar>
-        <div class="content">
+        <app-sidebar (activeSidebar)="openSidebar($event)"></app-sidebar>
+        <div class="content" [ngClass]="{'active': sideBarOpen}">
 
             <router-outlet></router-outlet>
 
@@ -11,7 +11,7 @@
                     <input type="text" placeholder="Pesquise pelo nome..." [(ngModel)]="textSearch"
                         (keypress)="handleFilterCharacter()">
                 </div>
-            
+
                 <div class="select-group">
                     <div class="select-item">
                         <label>Status:</label>
@@ -19,7 +19,7 @@
                             <option *ngFor="let status of listFilterStatus">{{status}}</option>
                         </select>
                     </div>
-            
+
                     <div class="select-item">
                         <label>Sexo</label>
                         <select [(ngModel)]="genderSelect">
@@ -34,20 +34,21 @@
                         </select>
                     </div>
                 </div>
-            
+
                 <div class="search-btn">
                     <button (click)="handleFilterCharacter()"><mat-icon>search</mat-icon></button>
                 </div>
             </span>
-            
 
-            <div class="cards-container" #containerContentCards>
+
+            <div class="cards-container">
 
                 <ng-container
                     *ngFor="let person of listCurrentCharacters | filterPersonName:textSearch | filterPersonStatus:statusSelected | filterPersonGender:genderSelect | filterPersonSpecie:speciesSelected; trackBy: trackByIndex; ">
                     <app-card-person [infoCharacter]="person" (selectedCharacter)="openCard($event)"></app-card-person>
-                </ng-container>
 
+                </ng-container>
+                <div #sentinela class="sentinela"></div>
             </div>
         </div>
     </div>
@@ -57,21 +58,36 @@
     <div class="modal-overlay">
 
         <div class="modal">
-            <span class="icon-close"><mat-icon>close</mat-icon></span>
+            <span class="icon-close" (click)="closeCard()">
+                <mat-icon>close</mat-icon>
+            </span>
             <div class="modal-content">
-                <h2>{{ cardSelected.name }}</h2>
-                <img [src]="cardSelected.image" alt="{{ cardSelected.name }}" class="modal-image">
-                <p><strong>Status:</strong> {{ cardSelected.status }}</p>
-                <p><strong>Species:</strong> {{ cardSelected.species }}</p>
-                <p><strong>Gender:</strong> {{ cardSelected.gender }}</p>
-                <p><strong>Origin:</strong> {{ cardSelected.origin.name }}</p>
-                <p><strong>Location:</strong> {{ cardSelected.location.name }}</p>
-                <p><strong>Episodes:</strong></p>
-                <ul>
-                    <li *ngFor="let episode of cardSelected.episode">{{ episode }}</li>
-                </ul>
-                <button>Close</button>
+                <div class="info-grid">
+                    <img [src]="cardSelected.image" alt="{{ cardSelected.name }}" class="modal-image">
+                    <div class="info-details">
+                        <h2>{{ cardSelected.name }}</h2>
+                        <p><strong>Status:</strong> {{ cardSelected.status }}</p>
+                        <p><strong>Species:</strong> {{ cardSelected.species }}</p>
+                        <p><strong>Gender:</strong> {{ cardSelected.gender }}</p>
+                        <p><strong>Origin:</strong> {{ cardSelected.origin.name }}</p>
+                        <p><strong>Location:</strong> {{ cardSelected.location.name }}</p>
+                    </div>
+                </div>
+                <div class="episodes-card">
+                    <button class="toggle-button" (click)="toggleEpisodes()">
+                         Episódios
+                        <mat-icon>{{ showEpisodes ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+                    </button>
+
+                    <ul *ngIf="showEpisodes" class="episodes-list">
+                        <li *ngFor="let episode of cardSelected.episode">
+                            <a [href]="episode" target="_blank">{{ episode }}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
+
+
     </div>
 </ng-container>

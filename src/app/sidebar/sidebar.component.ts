@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { CabecalhoComponent } from "../cabecalho/cabecalho.component";
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 
@@ -11,6 +10,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+  @Output() activeSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   public currentUrl: string = "";
   public stateSidebar: boolean = false;
 
@@ -24,9 +25,11 @@ export class SidebarComponent {
   
   public handleEnterSidebar(): void {
     this.stateSidebar = true;
+    this.activeSidebar.emit(true);
   }
 
   public handleExitSidebar(): void {
     this.stateSidebar = false;
+    this.activeSidebar.emit(false);
   }
 }

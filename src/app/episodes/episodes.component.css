@@ -1,26 +1,351 @@
 .dashboard-layout {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  .main {
-    display: flex;
-    flex: 1;
-  }
-  
-  .content {
-    flex: 1;
-    padding: 16px;
-    overflow-y: auto;
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 
+.main {
+  display: flex;
+  flex: 1;
+}
+
+.content {
+  flex: 1;
+  padding: 16px;
+  margin-top: 80px;
+  margin-left: 80px;
+  width: 800px;
+}
+
+.content.active {
+  margin-left: 100px;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 10px;
+  overflow: auto;
+  height: 780px;
+  margin-left: 70px;
+  margin-top: 5px;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.bar-research {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  margin-left: 80px;
+}
+
+.search-group input[type="text"] {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 220px;
+}
+
+.select-group {
+  display: flex;
+  gap: 15px;
+}
+
+.select-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.select-item label {
+  font-size: 14px;
+  color: #333;
+}
+
+.select-item select {
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-btn button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  align-items: center;
+  text-align: center;
+}
+
+.search-btn button:hover {
+  background-color: #45a049;
+}
+
+.search-btn mat-icon {
+  font-size: 16px;
+}
+
+
+
+@media (max-width: 1320px) {
   .cards-container {
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 16px;
-    justify-content: flex-start; 
-    padding: 16px;
+    grid-template-columns: repeat(3, 1fr);
+    /* 4 colunas em telas menores que 1320px */
   }
 
-  
+
+}
+
+@media (max-width: 1024px) {
+  .cards-container {
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 colunas em telas menores que 1024px */
+    margin-top: 70px;
+  }
+
+  .bar-research {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 colunas em telas menores que 768px */
+    padding: 8px;
+    /* Reduz o padding para otimizar o espaço */
+  }
+
+  .card {
+    padding: 12px;
+    /* Reduz o padding dos cards */
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+    /* 1 coluna em telas muito pequenas */
+    padding: 4px;
+    /* Reduz o padding para otimizar ainda mais o espaço */
+  }
+
+  .card {
+    padding: 8px;
+    /* Reduz o padding dos cards */
+  }
+}
+
+
+/* CSS MODAL CARD */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+}
+
+.modal {
+  position: fixed;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  /* Dividindo em topo e conteúdo */
+  grid-template-columns: 1fr;
+  /* Apenas uma coluna principal */
+  gap: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  z-index: 3000;
+  width: 600px;
+  max-height: 85vh;
+  overflow-y: auto;
+  color: #333;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  /* Coluna para imagem e outra para informações */
+  gap: 20px;
+  align-items: start;
+}
+
+.modal-image {
+  width: 100px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.info-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.icon-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.icon-close:hover {
+  color: #333;
+}
+
+.episodes-card {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  grid-column: span 2;
+  /* Ocupa toda a largura no grid principal */
+}
+
+.toggle-button {
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-button mat-icon {
+  margin-left: 10px;
+}
+
+.toggle-button:hover {
+  background-color: gray;
+  color: var(--color-dark);
+}
+
+.episodes-list {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+}
+
+.episodes-list li {
+  margin: 5px 0;
+}
+
+.episodes-list li a {
+  text-decoration: none;
+  color: #007bff;
+  transition: color 0.3s ease;
+}
+
+.episodes-list li a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+.image-span {
+  width: 20px;
+  height: 20px;
+}
+
+.span-item {
+  cursor: pointer;
+  width: 100%;
+  height: 40px;
+}
+
+/* CSS modal card */
+
+.modal-card-select-character {
+  position: fixed;
+  z-index: 5000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content-card-character {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 650px;
+  height: 300px;
+  display: flex;
+  position: relative;
+  border-radius: 8px;
+}
+
+.close-card-character {
+  color: var(--color-dark);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-card-character:hover,
+.close-card-character:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.left {
+  margin-top: 40px;
+  width: 40%;
+}
+
+.right {
+  margin-top: 40px;
+  width: 60%;
+  padding: 0 20px;
+  color: var(--color-dark);
+}
+
+.img-card-character {
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+}
+
+.person-alive{
+  color: green;
+}
+
+.person-dead{
+  color: red;
+}

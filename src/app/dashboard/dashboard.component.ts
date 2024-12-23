@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild, AfterViewInit, EventEmitter } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, AfterViewInit, EventEmitter, ElementRef } from '@angular/core';
 import { CharactersServiceService } from './characters-service.service';
 import { RouterOutlet, Router } from '@angular/router';
 import { CabecalhoComponent } from '../cabecalho/cabecalho.component';
@@ -6,10 +6,10 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CardPersonComponent } from '../card-person/card-person.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Subject, filter, map, takeUntil } from 'rxjs';
+import { Subject, map, takeUntil } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { FilterPersonPipe, FilterPersonStatusPipe,FilterPersonGenderPipe, FilterPersonSpeciePipe } from './filter-person.pipe';
+import { FilterPersonPipe, FilterPersonStatusPipe, FilterPersonGenderPipe, FilterPersonSpeciePipe } from './filter-person.pipe';
 
 
 export interface ICharacter {
@@ -39,18 +39,21 @@ interface ILocation {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterOutlet, CabecalhoComponent, SidebarComponent, CardPersonComponent, CommonModule, HttpClientModule, MatIconModule, FormsModule,FilterPersonPipe, FilterPersonStatusPipe, FilterPersonGenderPipe,FilterPersonSpeciePipe],
+  imports: [RouterOutlet, CabecalhoComponent, SidebarComponent, CardPersonComponent, CommonModule, HttpClientModule, MatIconModule, FormsModule, FilterPersonPipe, FilterPersonStatusPipe, FilterPersonGenderPipe, FilterPersonSpeciePipe],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
   providers: [CharactersServiceService]
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('containerContentCards') contentCards: any;
-  public containerHeight!: number;
-  public scrollPosition: number = 0;
-  public scrollHeightPosition: number = 0;
+  //Variaveis para fazer a paginacao por scroll
+  @ViewChild('sentinela') sentinela!: ElementRef;
+  private observer!: IntersectionObserver;
 
+  //Variavel de manipulacao da sidebar
+  public sideBarOpen: boolean = false;
+
+  //Variaveis de listagem
   public listCharacters!: Array<ICharacter>;
   public listCurrentCharacters!: Array<ICharacter>;
   public listFilteredCharacters!: Array<ICharacter>;
@@ -66,9 +69,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   public statusSelected: string = "";
   public genderSelect: string = "";
   public speciesSelected: string = "";
-  
-  public cardSelected!: any;
 
+  //Variaveis de exibicao do card
+  public cardSelected!: any;
+  public showEpisodes: boolean = false;
   private unsubscription$ = new Subject<void>;
 
   constructor(private characterService: CharactersServiceService) { }
@@ -84,18 +88,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.calculateHeight();
+    this.observer = new IntersectionObserver((entries: any) => {
+      const sentinela = entries[0];
+      if (sentinela.isIntersecting && !this.isLoading) {
+        this.handleNextPage();
+      }
+    }, {
+      root: null,
+      threshold: 1.0
+    })
 
-    if (this.contentCards) {
-      this.contentCards.nativeElement.addEventListener('scroll', (event: Event) => {
-        this.scrollPosition = this.contentCards.nativeElement.scrollTop;
-        console.log(this.scrollPosition);
-        let somativa = this.scrollPosition + this.containerHeight;
-        if (somativa >= this.scrollHeightPosition && !this.isLoading) {
-          this.handleNextPage();
-        }
-      });
-    }
+    this.observer.observe(this.sentinela.nativeElement);
+
   }
 
   /**
@@ -116,28 +120,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           /**
            * Processo geracao de filtros
            */
-          this.listFilterStatus = [... new Set(this.listFilterStatus),... new Set(characters.results.map((results: any) => results.status))];
-          this.listFilterGender = [... new Set(this.listFilterGender), ... new Set(characters.results.map((results: any) => results.gender))];
-          this.listFilterSpecies = [...new Set(this.listFilterSpecies),... new Set(characters.results.map((results: any) => results.species))];
+          this.listFilterStatus = [...new Set([...this.listFilterStatus, ...characters.results.map((results: any) => results.status)])];
+          this.listFilterGender = [...new Set([...this.listFilterGender, ...characters.results.map((results: any) => results.gender)])];
+          this.listFilterSpecies = [...new Set([...this.listFilterSpecies, ...characters.results.map((results: any) => results.species)])];
           return characters;
         })
       )
       .subscribe((response: any) => {
         this.listCurrentCharacters = response.results;
         this.totalPages = response.info.pages;
-        this.calculateHeight();
-      });
-  }
 
-  /**
-   * Funcao para calcular altura do container para ativar a paginacao por scrolling
-   */
-  public calculateHeight(): void {
-    if (this.contentCards) {
-      let container: any = this.contentCards.nativeElement;
-      this.containerHeight = container.offsetHeight;
-      this.scrollHeightPosition = container.scrollHeight;
-    }
+      });
   }
 
   public handleNextPage(): void {
@@ -145,24 +138,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.currentPage++;
       this.isLoading = true;
       this.characterService.getAllCharacters(this.currentPage)
-      .pipe(
-        map((character: any) => {
-          /**
-           * Processo geracao de filtros qual atualizar a pagina por scrolling
-           */
-          this.listFilterStatus = [... new Set(this.listFilterStatus),... new Set(character.results.map((result: any) => result.status))];
-          this.listFilterGender = [... new Set(this.listFilterGender),... new Set(character.results.map((result: any) => result.gender))];
-          this.listFilterSpecies = [... new Set(this.listFilterSpecies),... new Set(character.results.map((results: any) => results.type))];
-          return character;
-        })
-      )
-      .subscribe((response: any) => {
-        this.listCurrentCharacters = [... this.listCurrentCharacters, ...response.results];
-        setTimeout(() => {
-          this.calculateHeight(); // Recalcula a altura após carregar os novos dados
-          this.isLoading = false;
-        }, 0);
-      });
+        .pipe(
+          map((characters: any) => {
+            /**
+             * Processo geracao de filtros qual atualizar a pagina por scrolling
+             */
+            this.listFilterStatus = [...new Set([...this.listFilterStatus, ...characters.results.map((results: any) => results.status)])];
+            this.listFilterGender = [...new Set([...this.listFilterGender, ...characters.results.map((results: any) => results.gender)])];
+            this.listFilterSpecies = [...new Set([...this.listFilterSpecies, ...characters.results.map((results: any) => results.species)])];
+            return characters;
+          })
+        )
+        .subscribe((response: any) => {
+          this.listCurrentCharacters = [... this.listCurrentCharacters, ...response.results];
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 0);
+        });
     }
   }
 
@@ -171,9 +163,29 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.cardSelected = event;
   }
 
-  public handleFilterCharacter(){
-    console.log(this.genderSelect);
-    console.log(this.statusSelected);
+  public closeCard(): void {
+    this.cardSelected = "";
+    this.showEpisodes = false;
+  }
+
+  public toggleEpisodes() {
+    this.showEpisodes = !this.showEpisodes;
+  }
+
+  public handleFilterCharacter() {
+    let objectFilters = {
+      name: this.textSearch.toLowerCase(),
+      status: this.statusSelected.toLowerCase(),
+      gender: this.genderSelect.toLowerCase(),
+      species: this.speciesSelected.toLowerCase()
+    }
+    this.characterService.getCharactersWithFilter(objectFilters).subscribe((response: any) => {
+      this.listCurrentCharacters = response.results;
+    })
+  }
+
+  public openSidebar(event: boolean): void {
+    this.sideBarOpen = event;
   }
 
 }

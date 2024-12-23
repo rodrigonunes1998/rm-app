@@ -1,12 +1,76 @@
 <div class="dashboard-layout">
-    <app-cabecalho></app-cabecalho>
-    <div class="main">
-      <app-sidebar></app-sidebar>
-      <div class="content">
-        <router-outlet></router-outlet>
-        <div class="cards-container">
-         <app-card-person></app-card-person>
+  <app-cabecalho></app-cabecalho>
+  <div class="main">
+    <app-sidebar (activeSidebar)="openSideBar($event)"></app-sidebar>
+    <div class="content" [ngClass]="{'active' : sideBarOpen}">
+      <router-outlet></router-outlet>
+      <!-- <span class="bar-research">
+        <div class="search-group">
+          <input type="text" placeholder="Pesquise pelo nome...">
+        </div>
+
+        <div class="search-btn">
+          <button><mat-icon>search</mat-icon></button>
+        </div>
+      </span> -->
+      <div class="cards-container">
+        <ng-container *ngFor="let episode of listCurrentEpisodes">
+          <app-episode-card [infoEpisode]="episode" (selectedEpisode)="openCard($event)"></app-episode-card>
+        </ng-container>
+        <div #sentinela class="sentinela">Carregando...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="cardSelected">
+  <div class="modal-overlay">
+    <div class="modal">
+      <span class="icon-close" (click)="closeCard()">
+        <mat-icon>close</mat-icon>
+      </span>
+      <div class="modal-content">
+       
+          <div class="info-details">
+            <h2>Episodio: {{ cardSelected.name }}</h2>
+            <p><strong>Ao ar em:</strong> {{ cardSelected.air_date }}</p>
+            <p><strong>Episodio:</strong> {{ cardSelected.episode }}</p>
+          </div>
+        
+        <div class="episodes-card">
+          <button class="toggle-button" (click)="handleExpandCharacters()">
+            Personagens
+            <mat-icon>{{ showCharacters ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+          </button>
+
+          <ul *ngIf="showCharacters" class="episodes-list">
+            <li *ngFor="let character of listCharacters">
+              <span class="span-item" (click)="openCardCharacter(character)">
+                <img class="image-span" src="{{character.image}}">
+                {{character.name}}</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
+</ng-container>
+
+
+<ng-container *ngIf="cardSelectedCharacter">
+<div class="modal-card-select-character">
+  <div class="modal-content-card-character">
+    <span class="close-card-character" (click)="closeCardCharacter()"><mat-icon>close</mat-icon></span>
+    <div class="left">
+      <img class="img-card-character" src="{{cardSelectedCharacter.image}}" alt="Imagem">
+    </div>
+    <div class="right">
+      <h2>{{cardSelectedCharacter.name}}</h2>
+      <p>Status: <mat-icon [ngClass]="{'person-alive': cardSelectedCharacter.status === 'Alive', 'person-dead': cardSelectedCharacter.status === 'Dead'}">support</mat-icon> {{cardSelectedCharacter.status}}</p>
+      <p>Sexo: {{cardSelectedCharacter.gender}}</p>
+      <p>Specie: {{cardSelectedCharacter.species}}</p>
+    </div>
+  </div>
+</div>
+
+</ng-container>

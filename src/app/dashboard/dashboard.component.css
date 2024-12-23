@@ -14,22 +14,27 @@
     padding: 16px;
   }
 
+  .content.active {
+    margin-left: 100px;
+  }
+
   .cards-container {
-    display: grid; /* Define o layout como Grid */
-    grid-template-columns: repeat(4, 1fr); /* 5 colunas por linha em telas grandes */
-    gap: 16px; /* Espaçamento entre os cards */
-    padding: 16px; /* Espaçamento interno */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 8px;
+    padding: 10px; 
     overflow: auto;
-    height: 800px;
+    height: 700px;
     margin-left: 70px;
-    margin-top: 20px;
+    margin-top: 5px;
     flex-grow: 1;
+    align-items: center;
   }
 
   .bar-research {
     display: flex;
     align-items: center;
-    gap: 20px; /* Aumentei o espaçamento geral entre os grupos */
+    gap: 20px; 
     padding: 10px 20px;
     background-color: #fff;
     border-radius: 8px;
@@ -48,13 +53,13 @@
   
   .select-group {
     display: flex;
-    gap: 15px; /* Espaço entre os select */
+    gap: 15px; 
   }
   
   .select-item {
     display: flex;
     flex-direction: column;
-    gap: 5px; /* Espaço entre o label e o select */
+    gap: 5px; 
   }
   
   .select-item label {
@@ -145,61 +150,111 @@
     z-index: 2000;
   }
   
-  /* Estilos do modal */
   .modal {
     position: fixed;
+    display: grid;
+    grid-template-rows: auto 1fr; /* Dividindo em topo e conteúdo */
+    grid-template-columns: 1fr;  /* Apenas uma coluna principal */
+    gap: 20px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
     z-index: 3000;
-    width: 700px;
-    max-height: 80vh;
+    width: 600px;
+    max-height: 85vh;
     overflow-y: auto;
-    color: var(--color-dark);
+    color: #333;
   }
   
-  .modal h2 {
-    margin: 0;
-    font-size: 1.5em;
-    color: var(--color-dark);
+  .info-grid {
+    display: grid;
+    grid-template-columns: 100px 1fr; /* Coluna para imagem e outra para informações */
+    gap: 20px;
+    align-items: start;
   }
   
-  .modal img {
-    width: 30%;
+  .modal-image {
+    width: 100px;
     height: auto;
     border-radius: 8px;
   }
   
-  .modal p {
-    font-size: 1em;
-    margin: 10px 0;
+  .info-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   
-  .modal ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .modal button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
+  .icon-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #999;
     cursor: pointer;
+    transition: color 0.3s ease;
   }
   
-  .modal button:hover {
-    background-color: #0056b3;
+  .icon-close:hover {
+    color: #333;
   }
-
-  .icon-close{
-    margin-left: 0;
+  
+  .episodes-card {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    grid-column: span 2; /* Ocupa toda a largura no grid principal */
   }
+  
+  .toggle-button {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .toggle-button mat-icon {
+    margin-left: 10px;
+  }
+  
+  .toggle-button:hover {
+    background-color: gray;
+    color: var(--color-dark);
+  }
+  
+  .episodes-list {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+  }
+  
+  .episodes-list li {
+    margin: 5px 0;
+  }
+  
+  .episodes-list li a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+  }
+  
+  .episodes-list li a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+  }
+  
 
   
