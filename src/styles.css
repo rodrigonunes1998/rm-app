@@ -15,12 +15,14 @@
   /* Gradientes */
   --gradient-primary: linear-gradient(90deg, #00ffbf, #1b98e0);
   --gradient-accent: linear-gradient(90deg, #ffcc00, #ff4d4d);
+
+  --font-family: 'Inter', 'Arial', sans-serif;
 }
 
 body {
   /* background: var(--color-dark); */
   color: var(--color-light);
-  font-family: 'Inter', 'Arial', sans-serif;
+  font-family: var(--font-family);
   margin: 0;
   padding: 0;
 }

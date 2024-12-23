@@ -1,0 +1,18 @@
+<div class="card">
+    <h1><mat-icon>login</mat-icon></h1>
+    <form [formGroup]="formLogin" (ngSubmit)="onSubmitLogin()">
+        <div class="input-group">
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" placeholder="Usuario" required formControlName="username">
+            
+        </div>
+        <div class="input-group">
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" placeholder="Senha" required formControlName="password">
+        </div>
+        <small class="error-message" *ngIf="formLogin.get('username')?.errors?.['required'] && formLogin.get('username')?.touched">Informe um usuario</small>
+        <div>
+            <button class="button-primary" type="submit">Entrar</button>
+        </div>
+    </form>
+</div>
