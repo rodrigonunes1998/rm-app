@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon'; 
+import { AuthService } from '../login/auth.service';
 @Component({
   selector: 'app-cabecalho',
   imports: [MatIconModule],
@@ -7,5 +8,5 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './cabecalho.component.css'
 })
 export class CabecalhoComponent {
-
+  public user: string | null = AuthService.getUser();
 }

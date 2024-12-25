@@ -44,7 +44,7 @@
           </button>
 
           <ul *ngIf="showCharacters" class="episodes-list">
-            <li *ngFor="let character of listCharacters">
+            <li class="span-item" *ngFor="let character of listCharacters">
               <span class="span-item" (click)="openCardCharacter(character)">
                 <img class="image-span" src="{{character.image}}">
                 {{character.name}}</span>

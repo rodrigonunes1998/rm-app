@@ -3,4 +3,10 @@
     <ul  routerLink="/characters" class="ul-option-sidebar" [ngClass]="{'ul-option-active': currentUrl === '/characters'}"><mat-icon>group</mat-icon><span [hidden]="!stateSidebar">Characters</span></ul>
     <!-- <ul class="ul-option-sidebar" [ngClass]="{'ul-option-active': currentUrl === '/locations'}"><mat-icon>location_on</mat-icon><span routerLink="/locations"><label [hidden]="!stateSidebar">Locations</label></span></ul> -->
     <ul routerLink="/episodes" class="ul-option-sidebar" [ngClass]="{'ul-option-active': currentUrl === '/episodes'}"><mat-icon>movie</mat-icon><span ><label [hidden]="!stateSidebar">Episodes</label></span></ul>
+
+    <ul class="ul-option-sidebar bottom-option" (click)="handleLogout()">
+        <mat-icon>logout</mat-icon>
+        <span><label [hidden]="!stateSidebar">Sair</label></span>
+    </ul>
 </div>
+
