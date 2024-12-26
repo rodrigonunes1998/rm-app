@@ -4,15 +4,6 @@
     <app-sidebar (activeSidebar)="openSideBar($event)"></app-sidebar>
     <div class="content" [ngClass]="{'active' : sideBarOpen}">
       <router-outlet></router-outlet>
-      <!-- <span class="bar-research">
-        <div class="search-group">
-          <input type="text" placeholder="Pesquise pelo nome...">
-        </div>
-
-        <div class="search-btn">
-          <button><mat-icon>search</mat-icon></button>
-        </div>
-      </span> -->
       <div class="cards-container">
         <ng-container *ngFor="let episode of listCurrentEpisodes">
           <app-episode-card [infoEpisode]="episode" (selectedEpisode)="openCard($event)"></app-episode-card>
@@ -72,5 +63,5 @@
     </div>
   </div>
 </div>
-
+ 
 </ng-container>

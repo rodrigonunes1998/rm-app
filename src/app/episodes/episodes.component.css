@@ -102,7 +102,7 @@
 @media (max-width: 1320px) {
   .cards-container {
     grid-template-columns: repeat(3, 1fr);
-    /* 4 colunas em telas menores que 1320px */
+    
   }
 
 
@@ -111,7 +111,6 @@
 @media (max-width: 1024px) {
   .cards-container {
     grid-template-columns: repeat(3, 1fr);
-    /* 3 colunas em telas menores que 1024px */
     margin-top: 70px;
   }
 
@@ -123,28 +122,22 @@
 @media (max-width: 768px) {
   .cards-container {
     grid-template-columns: repeat(2, 1fr);
-    /* 2 colunas em telas menores que 768px */
-    padding: 8px;
-    /* Reduz o padding para otimizar o espaço */
+    padding: 8px;  
   }
 
   .card {
     padding: 12px;
-    /* Reduz o padding dos cards */
   }
 }
 
 @media (max-width: 480px) {
   .cards-container {
     grid-template-columns: 1fr;
-    /* 1 coluna em telas muito pequenas */
     padding: 4px;
-    /* Reduz o padding para otimizar ainda mais o espaço */
   }
 
   .card {
     padding: 8px;
-    /* Reduz o padding dos cards */
   }
 }
 
@@ -165,9 +158,7 @@
   position: fixed;
   display: grid;
   grid-template-rows: auto 1fr;
-  /* Dividindo em topo e conteúdo */
   grid-template-columns: 1fr;
-  /* Apenas uma coluna principal */
   gap: 20px;
   top: 50%;
   left: 50%;
@@ -186,7 +177,6 @@
 .info-grid {
   display: grid;
   grid-template-columns: 100px 1fr;
-  /* Coluna para imagem e outra para informações */
   gap: 20px;
   align-items: start;
 }
@@ -223,7 +213,6 @@
   border-radius: 10px;
   padding: 15px;
   grid-column: span 2;
-  /* Ocupa toda a largura no grid principal */
 }
 
 .toggle-button {
@@ -285,7 +274,7 @@
   background-color: #888;
 }
 
-/* CSS modal card */
+/* CSS modal card personagem*/
 
 .modal-card-select-character {
   position: fixed;

@@ -98,7 +98,7 @@
   
   @media (max-width: 1320px) {
     .cards-container {
-      grid-template-columns: repeat(3, 1fr); /* 4 colunas em telas menores que 1320px */
+      grid-template-columns: repeat(3, 1fr); 
     }
 
     
@@ -106,7 +106,7 @@
   
   @media (max-width: 1024px) {
     .cards-container {
-      grid-template-columns: repeat(3, 1fr); /* 3 colunas em telas menores que 1024px */
+      grid-template-columns: repeat(3, 1fr); 
       margin-top: 70px;
     }
 
@@ -117,23 +117,23 @@
   
   @media (max-width: 768px) {
     .cards-container {
-      grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas menores que 768px */
-      padding: 8px; /* Reduz o padding para otimizar o espaço */
+      grid-template-columns: repeat(2, 1fr); 
+      padding: 8px; 
     }
   
     .card {
-      padding: 12px; /* Reduz o padding dos cards */
+      padding: 12px; 
     }
   }
   
   @media (max-width: 480px) {
     .cards-container {
-      grid-template-columns: 1fr; /* 1 coluna em telas muito pequenas */
-      padding: 4px; /* Reduz o padding para otimizar ainda mais o espaço */
+      grid-template-columns: 1fr; 
+      padding: 4px; 
     }
   
     .card {
-      padding: 8px; /* Reduz o padding dos cards */
+      padding: 8px; 
     }
   }
   
@@ -153,8 +153,8 @@
   .modal {
     position: fixed;
     display: grid;
-    grid-template-rows: auto 1fr; /* Dividindo em topo e conteúdo */
-    grid-template-columns: 1fr;  /* Apenas uma coluna principal */
+    grid-template-rows: auto 1fr; 
+    grid-template-columns: 1fr; 
     gap: 20px;
     top: 50%;
     left: 50%;
@@ -172,7 +172,7 @@
   
   .info-grid {
     display: grid;
-    grid-template-columns: 100px 1fr; /* Coluna para imagem e outra para informações */
+    grid-template-columns: 100px 1fr; 
     gap: 20px;
     align-items: start;
   }
@@ -208,7 +208,7 @@
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 15px;
-    grid-column: span 2; /* Ocupa toda a largura no grid principal */
+    grid-column: span 2;
   }
   
   .toggle-button {
@@ -239,6 +239,7 @@
     list-style: none;
     padding: 10px;
     margin: 0;
+    cursor: pointer;
   }
   
   .episodes-list li {
@@ -257,4 +258,67 @@
   }
   
 
+  /* CSS card episodio */
+
+  .modal-overlay-card-episode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 5000;
+  }
   
+  .modal-card-episode {
+    position: fixed;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    z-index: 6000;
+    width: 600px;
+    max-height: 85vh;
+    overflow-y: auto;
+    color: #333;
+  }
+  
+  .info-grid {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  
+  .modal-image {
+    width: 100px;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .info-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .icon-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .icon-close:hover {
+    color: #333;
+  }

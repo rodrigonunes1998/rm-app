@@ -80,8 +80,8 @@
                     </button>
 
                     <ul *ngIf="showEpisodes" class="episodes-list">
-                        <li *ngFor="let episode of cardSelected.episode">
-                            <a [href]="episode" target="_blank">{{ episode }}</a>
+                        <li *ngFor="let episode of cardSelected.episode" (click)="handleSelectCardEpisode(episode)">
+                            <a >{{ episode }}</a>
                         </li>
                     </ul>
                 </div>
@@ -91,3 +91,23 @@
 
     </div>
 </ng-container>
+
+
+<ng-container *ngIf="cardSelectedEpisode != undefined">
+    <div class="modal-overlay-card-episode">
+      <div class="modal-card-episode">
+        <span class="icon-close" (click)="closeCardEpisode()">
+          <mat-icon>close</mat-icon>
+        </span>
+        <div class="modal-content">
+         
+            <div class="info-details">
+              <h2>Episodio: {{ cardSelectedEpisode.name }}</h2>
+              <p><strong>Ao ar em:</strong> {{ cardSelectedEpisode.air_date }}</p>
+              <p><strong>Episodio:</strong> {{ cardSelectedEpisode.episode }}</p>
+            </div>
+        
+        </div>
+      </div>
+    </div>
+  </ng-container>

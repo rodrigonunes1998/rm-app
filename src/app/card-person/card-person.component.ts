@@ -19,10 +19,13 @@ export class CardPersonComponent {
   @Output() selectedCharacter: EventEmitter<any> = new EventEmitter<any>();
 
 
-
+  /**
+   * Ao clicar no card, e emitido o evento atraves desta funcao para o componente pai realizar a abertura
+   * do modal com as informacoes do card. As informacoes sao passadas pelo parametro:
+   * @param object 
+   */
   public handleOpenCard(object: ICharacter):void {
     this.selectedCharacter.emit(object);
   }
-
 
 }

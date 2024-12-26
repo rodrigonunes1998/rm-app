@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
   providers: [AuthService]
 })
 export class LoginComponent {
+  //Variavel de formulario
   public formLogin: FormGroup;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
@@ -23,6 +24,9 @@ export class LoginComponent {
   }
 
 
+  /**
+   * Funcao que captura os dados do formulario e executa a requisicao
+   */
   public onSubmitLogin(){
     this.authService.login(this.formLogin.value.username,this.formLogin.value.password).subscribe((response: any)=>{
       localStorage.setItem('token', response.token);

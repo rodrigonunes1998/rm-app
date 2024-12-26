@@ -1,5 +1,4 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { CardPersonComponent } from "../card-person/card-person.component";
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CabecalhoComponent } from '../cabecalho/cabecalho.component';
@@ -12,7 +11,7 @@ import { ICharacter } from '../dashboard/dashboard.component';
 
 @Component({
   selector: 'app-episodes',
-  imports: [ RouterOutlet, SidebarComponent, CabecalhoComponent, CommonModule, EpisodeCardComponent, HttpClientModule, MatIconModule],
+  imports: [RouterOutlet, SidebarComponent, CabecalhoComponent, CommonModule, EpisodeCardComponent, HttpClientModule, MatIconModule],
   templateUrl: './episodes.component.html',
   styleUrl: './episodes.component.css',
   providers: [EpisodesService]
@@ -57,6 +56,9 @@ export class EpisodesComponent {
     this.getAllEpisodes();
   }
 
+  /**
+   * Funcao para interceptar a sentinela e executar a paginacao por scroll
+   */
   ngAfterViewInit(){
     this.observer = new IntersectionObserver((entries: any) => {
       const sentinela = entries[0];
@@ -95,6 +97,9 @@ export class EpisodesComponent {
     }
   }
 
+  /**
+   * Funcao para expandir a lista dos personagens em um episodio
+   */
   public handleExpandCharacters(): void{
     this.showCharacters = !this.showCharacters;
   }

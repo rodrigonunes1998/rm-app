@@ -25,6 +25,10 @@ export class EpisodeCardComponent {
   
   
   
+    /**
+     * Emite um evento para o componente pai abrir o modal com o card de episodio com as informacoes.
+     * @param object 
+     */
     public handleOpenCard(object: any):void {
       this.selectedEpisode.emit(object);
     }

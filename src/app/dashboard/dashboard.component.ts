@@ -5,11 +5,12 @@ import { CabecalhoComponent } from '../cabecalho/cabecalho.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CardPersonComponent } from '../card-person/card-person.component';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Subject, map, takeUntil } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { FilterPersonPipe, FilterPersonStatusPipe, FilterPersonGenderPipe, FilterPersonSpeciePipe } from './filter-person.pipe';
+import { EpisodesService } from '../episodes/episodes-service.service';
 
 
 export interface ICharacter {
@@ -42,7 +43,7 @@ interface ILocation {
   imports: [RouterOutlet, CabecalhoComponent, SidebarComponent, CardPersonComponent, CommonModule, HttpClientModule, MatIconModule, FormsModule, FilterPersonPipe, FilterPersonStatusPipe, FilterPersonGenderPipe, FilterPersonSpeciePipe],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  providers: [CharactersServiceService]
+  providers: [CharactersServiceService, EpisodesService],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
 
@@ -53,7 +54,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   //Variavel de manipulacao da sidebar
   public sideBarOpen: boolean = false;
 
-  //Variaveis de listagem
+  //Variaveis de listagem dos personagens
   public listCharacters!: Array<ICharacter>;
   public listCurrentCharacters!: Array<ICharacter>;
   public listFilteredCharacters!: Array<ICharacter>;
@@ -61,7 +62,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   public totalPages!: number;
   public isLoading: boolean = false;
 
-  //Variables research
+  //Variaveis de pesquisa
   public textSearch: string = "";
   public listFilterStatus: Array<any> = [];
   public listFilterGender: Array<any> = [];
@@ -72,21 +73,29 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   //Variaveis de exibicao do card
   public cardSelected!: any;
+  public cardSelectedEpisode!: any;
   public showEpisodes: boolean = false;
   private unsubscription$ = new Subject<void>;
 
-  constructor(private characterService: CharactersServiceService) { }
+  constructor(private characterService: CharactersServiceService, private episodeService: EpisodesService) { }
 
 
   ngOnInit() {
     this.getAllCharacters();
   }
 
+  /**
+   * Funcao ao ser destruido o componente, resolve e libera todas as subscricoes.
+   */
   ngOnDestroy(): void {
     this.unsubscription$.next();
     this.unsubscription$.complete();
   }
 
+
+  /**
+   * Apos a renderizacao e realizada a verificacao para intersecao da sentinela para paginacao por scroll
+   */
   ngAfterViewInit(): void {
     this.observer = new IntersectionObserver((entries: any) => {
       const sentinela = entries[0];
@@ -129,10 +138,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       .subscribe((response: any) => {
         this.listCurrentCharacters = response.results;
         this.totalPages = response.info.pages;
-
       });
   }
 
+  /**
+   * Funcao para requisitar a proxima pagina via API.
+   */
   public handleNextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
@@ -159,19 +170,32 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
 
+  /**
+   * Funcao para abrir o card do personagem ao ser clicado.
+   * @param event 
+   */
   public openCard(event: Event): void {
     this.cardSelected = event;
   }
 
+  /**
+   * Funcao para fechar o card do personagem
+   */
   public closeCard(): void {
     this.cardSelected = "";
     this.showEpisodes = false;
   }
 
+  /**
+   * Funcao para abrir a listagem dos episodios
+   */
   public toggleEpisodes() {
     this.showEpisodes = !this.showEpisodes;
   }
 
+  /**
+   * Funcao para requisitar via API a listagem dos personagens utilizando filtros.
+   */
   public handleFilterCharacter() {
     let objectFilters = {
       name: this.textSearch.toLowerCase(),
@@ -184,6 +208,27 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     })
   }
 
+  /**
+   * Funcao para abrir e requisitar as informacoes do episodio e exibir o card.
+   * @param link 
+   */
+  public handleSelectCardEpisode(link: string): void {
+    this.episodeService.getCharactersInEpisode(link).subscribe((response: any) => {
+      this.cardSelectedEpisode = response;
+    });
+  }
+
+  /**
+   * Funcao para fechar o card de informacoes do episodio.
+   */
+  public closeCardEpisode(){
+    this.cardSelectedEpisode = undefined;
+  }
+  
+  /**
+   * Funcao para expandir/encolher a sidebar na rota atual
+   * @param event 
+   */
   public openSidebar(event: boolean): void {
     this.sideBarOpen = event;
   }

@@ -6,7 +6,6 @@
     overflow: hidden;
     max-width: 250px;
     max-height: 180px;
-    /* width: 100%; */
     color: var(--color-light);
     cursor: pointer;
 }
@@ -42,7 +41,6 @@
     width: 8px;
     height: 8px;
     color: var(--color-light);
-    /* Green for "Alive" */
     border-radius: 50%;
     margin-right: 8px;
 }
@@ -70,5 +68,4 @@
 
 .first-seen-title {
     color: #f3a952;
-    /* Highlighted color */
 }

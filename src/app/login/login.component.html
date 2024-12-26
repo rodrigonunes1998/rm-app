@@ -12,7 +12,7 @@
         </div>
         <small class="error-message" *ngIf="formLogin.get('username')?.errors?.['required'] && formLogin.get('username')?.touched">Informe um usuario</small>
         <div>
-            <button class="button-primary" type="submit">Entrar</button>
+            <button class="button-primary" type="submit" [disabled]="formLogin.get('username')?.errors?.['required']">Entrar</button>
         </div>
     </form>
 </div>

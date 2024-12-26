@@ -9,10 +9,20 @@ export class EpisodesService {
   constructor(private http: HttpClient) { }
 
 
+  /**
+   * Funcao para requisitar todos os episodios via API
+   * @param page 
+   * @returns 
+   */
   public getAllEpisodes(page: number): Observable<any>{
     return this.http.get(`${this.urlApi}?page${page}`);
   }
 
+  /**
+   * Funcao para requisitar as informacoes de um episodio especifico atraves do link
+   * @param link 
+   * @returns 
+   */
   public getCharactersInEpisode(link: string): Observable<any>{
     return this.http.get(`${link}`);
   }

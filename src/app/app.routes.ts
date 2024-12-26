@@ -8,7 +8,7 @@ export const routes: Routes = [
     {
         path: "characters",
         component: DashboardComponent,
-        canActivate: [guardaRotaGuard]
+        canActivate: [guardaRotaGuard],
     },
     {
         path: 'episodes',

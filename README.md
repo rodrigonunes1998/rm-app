@@ -1,59 +1,48 @@
-# RmApp
+Este projeto tem como objetivo testar alguns conhecimentos utilizando o framework Angular para desenvolvimento de aplicacoes modernas.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.4.
+Conceitos abordados: 
+    - Componentes 
+    - Servicos 
+    - Pipes
+    - Roteamento
+    - Guardas de Rotas
+    - Formularios
+    - Observables
 
-## Development server
+- Servicos: Foi utilizado para captura de dados via API. Utilizado tambem para a simulacao de um sistema de autenticacao.
 
-To start a local development server, run:
+- Pipes: Foi utilizado para geracao de filtros em algumas listagens do projeto.
 
-```bash
-ng serve
-```
+- Roteamento: Foi utilizado para criar e gerenciar as rotas da aplicacao
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Guarda de Rotas: Foi utilizado para assegurar a utilizacao de algumas rotas apenas se tiver autenticado (simulacao). 
 
-## Code scaffolding
+- Formularios: foi utilizado formularios reativos tanto para inputs de de filtros como para formulario de login no sistema.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Foi utilizado os conceitos de Observables para a captura de dados via api. Tambem utilizado Subjects para a limpeza de subscricoes apos a destruicao do componente.
 
-```bash
-ng generate component component-name
-```
+- Foi utilizado tambem tipagens do Typescript.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-```bash
-ng generate --help
-```
+* Estrutura do projeto: 
 
-## Building
+Componentes: 
+    - Login (login): este componente acessado pela rota /login nele e informado usuario e senha onde o servico [AuthService] ira simular uma requisicao http e a devolucao de um token, este token e armazenado no localStorage e posteriormente o guard ira verificar se o cliente esta com o token.
+    - Cabecalho (cabecalho): este componente fixo contem a logo do projeto e informacoes do usuario (username).
+    - Sidebar (sidebar): este componente fixo possui os menus disponiveis na aplicacao para acessar as rotas.
+    - Dashboard: este componente contem a listagem de todos os cards que ira mostrar cada personagem e barra de pesquisa com filtros. O mesmo e renderizado na rota /characters.
+        - Ao rolar o scroll o componente carrega por paginacao via api os demais personagens.
+        - Cada personagem e representado pelo componente: [card-person] onde apos o servico [characters-service] buscar os dados via API sobre os personagens, estes dados sao passados via @Input para o componente [card-person].
+    
+        - Na barra de pesquisa ao comecar a digitar o nome de um personagem, oque foi listado ate o momento e filtrado atraves de um Pipe [filterPerson]. Tambem ao rolar o scroll da pagina os filtros dos personagens sao adicionados conforme vai carregando outros personagens, existe tambem alguns outros filtros como status, sexo e especie.
+        - Estes outros filtros tambem possui pipes que ao ser selecionado a listagem e filtrada.
+        - Ao preencher os filtros e clicar no botao de pesquisar o sistema utiliza o servico [characters-service] para buscar com filtros via API.
+        - Ao abrir um card de personagem e mostrado todas as informacoes do mesmo atraves de um modal e juntos das informacoes do personagem e mostrado tambem os episodios em que o personagem esta presente.
+        - Ao clicar no link do episodio ira mostrar um modal contendo as informacoes do episodio.
 
-To build the project run:
+    - Episodios: este componente contem a listagem dos episodios e esta presente na rota /episodes
+        - Ao rolar ao scroll e realizado as requisicoes para a paginacao.
+        - Os cards possuem funcionamento semelhante, as informacoes sao abertas em um modal ao ser clicado no card . As informacoes dos personagens tambem aparece ao clicar em cada personagem que e listado no card de episodio.
 
-```bash
-ng build
-```
+- Logout do sistema: Ao ser clicado na sidebar, e destruido o objeto do localStorage e redirecionado para a pagina de login.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
